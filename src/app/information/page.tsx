@@ -12,19 +12,26 @@ export default async function InformationPage() {
   return (
     <div className={styles.page}>
       <section className={styles.text}>
-        <p className={styles.bio}>{profile.bio}</p>
+        <div className={styles.textScroll}>
+          <div className={styles.textInner}>
+            <p className={styles.bio}>{profile.bio}</p>
 
-        <div className={styles.contact}>
-          <a href={`mailto:${profile.email}`} className={styles.contactLink}>
-            {profile.email}
-          </a>
-          <a
-            href={`tel:${profile.phone.replace(/\s+/g, "")}`}
-            className={styles.contactLink}
-          >
-            {profile.phone}
-          </a>
-          <address className={styles.address}>{profile.address}</address>
+            <div className={styles.contact}>
+              <a
+                href={`mailto:${profile.email}`}
+                className={styles.contactLink}
+              >
+                {profile.email}
+              </a>
+              <a
+                href={`tel:${profile.phone.replace(/\s+/g, "")}`}
+                className={styles.contactLink}
+              >
+                {profile.phone}
+              </a>
+              <address className={styles.address}>{profile.address}</address>
+            </div>
+          </div>
         </div>
       </section>
 

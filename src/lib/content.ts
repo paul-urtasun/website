@@ -30,6 +30,7 @@ export interface SelectionPiece {
   slug: string;
   title: string;
   description: string;
+  type: string;
   facts: FactItem[];
   image: string;
   aspect: SelectionAspect;
@@ -46,11 +47,6 @@ export interface Profile {
 }
 
 type StubInteriorProject = Omit<InteriorProject, "facts">;
-
-interface StubSelectionPiece extends Omit<SelectionPiece, "facts"> {
-  material: string;
-  year: string;
-}
 
 type SanityFact = {
   label?: string | null;
@@ -84,6 +80,7 @@ type SanitySelectionItem = {
   title?: string | null;
   slug?: string | null;
   description?: string | null;
+  type?: string | null;
   facts?: SanityFact[] | null;
   image?: SanityImage | null;
 };
@@ -177,129 +174,6 @@ const INTERIORS: StubInteriorProject[] = [
   },
 ];
 
-const SELECTION: StubSelectionPiece[] = [
-  {
-    slug: "atelier-martine-side-table",
-    title: "Atelier Martine Side Table",
-    description:
-      "The unique crushed treatment of the leather combined with the soft touch of goatskin offers an experience where individuality meets refinement.",
-    material: "Leather, Goatskin",
-    year: "2003",
-    image: img("sel-atelier-martine", 800, 1000),
-    aspect: "portrait",
-  },
-  {
-    slug: "carpentier-fauteuils",
-    title: "Carpentier Fauteuils",
-    description:
-      "A pair of low lounge chairs in their original mohair upholstery, attributed to Carpentier, France, c. 1955.",
-    material: "Mohair, Beech",
-    year: "1955",
-    image: img("sel-carpentier", 1200, 800),
-    aspect: "landscape",
-  },
-  {
-    slug: "mirror-i",
-    title: "Mirror I",
-    description:
-      "A tall hand-bevelled mirror in a slim brass frame, attributed to a Milanese workshop, c. 1968.",
-    material: "Mirror, Brass",
-    year: "1968",
-    image: img("sel-mirror", 800, 1100),
-    aspect: "portrait",
-  },
-  {
-    slug: "green-chambost-vase",
-    title: "Green Chambost Vase",
-    description:
-      "An emerald-glazed stoneware vase by Pol Chambost, signed and dated, with rich tonal variation across the body.",
-    material: "Glazed stoneware",
-    year: "1962",
-    image: img("sel-chambost", 900, 900),
-    aspect: "square",
-  },
-  {
-    slug: "italian-console-table",
-    title: "Italian Console Table",
-    description:
-      "A long Italian console in walnut and travertine, with a single floating shelf and tapered legs.",
-    material: "Walnut, Travertine",
-    year: "1971",
-    image: img("sel-console", 1300, 900),
-    aspect: "landscape",
-  },
-  {
-    slug: "louis-xvi-console-table",
-    title: "Louis XVI Console Table",
-    description:
-      "A demi-lune console in carved giltwood with a marble top, late 18th century, French.",
-    material: "Giltwood, Marble",
-    year: "c. 1785",
-    image: img("sel-louis-xvi", 1300, 900),
-    aspect: "landscape",
-  },
-  {
-    slug: "eames-chair-ottoman",
-    title: "Eames Chair & Ottoman",
-    description:
-      "An early production lounge chair and ottoman in rosewood and black leather, with original down cushions.",
-    material: "Rosewood, Leather",
-    year: "1958",
-    image: img("sel-eames", 1300, 900),
-    aspect: "landscape",
-  },
-  {
-    slug: "claude-bouscau",
-    title: "Claude Bouscau (1909–1985)",
-    description:
-      "A figural carved oak sculpture by Claude Bouscau, with a rich patina developed over decades.",
-    material: "Carved oak",
-    year: "1948",
-    image: img("sel-bouscau", 1300, 900),
-    aspect: "landscape",
-  },
-  {
-    slug: "adler-sullivan-transom",
-    title: "Adler & Sullivan Transom",
-    description:
-      "A pierced and gilded transom panel from a Chicago commercial building by Adler & Sullivan.",
-    material: "Iron, Gilt",
-    year: "1894",
-    image: img("sel-adler", 800, 1100),
-    aspect: "portrait",
-  },
-  {
-    slug: "paedra-bamhall-glass-orb",
-    title: "Paedra Bamhall Glass Orb",
-    description:
-      "A hand-blown glass orb with a fine internal lattice, by Paedra Bamhall, signed.",
-    material: "Hand-blown glass",
-    year: "2019",
-    image: img("sel-bamhall", 1200, 900),
-    aspect: "landscape",
-  },
-  {
-    slug: "saint-laurent-mannequin",
-    title: "Yves Saint Laurent",
-    description:
-      "A studio mannequin from the Saint Laurent atelier, with original linen wrap.",
-    material: "Linen, Wood",
-    year: "1976",
-    image: img("sel-saint-laurent", 700, 1100),
-    aspect: "portrait",
-  },
-  {
-    slug: "louis-xv-armchair",
-    title: "Louis XV Armchair",
-    description:
-      "A bergère in carved beech with original silk damask upholstery, French, mid-18th century.",
-    material: "Beech, Silk",
-    year: "c. 1755",
-    image: img("sel-louis-xv", 900, 900),
-    aspect: "square",
-  },
-];
-
 const PROFILE: Profile = {
   bio: "Rooted in Bilbao, shaped by a childhood in Biarritz, and refined through years in London before settling in New York, his work brings together European ease and urban sophistication. With a strong eye for texture, atmosphere, and quiet drama, he creates interiors that feel layered, personal, and deeply considered.",
   email: "studio@paulurtasun.com",
@@ -388,6 +262,7 @@ function normalizeSelection(
   const title = nonEmptyString(item?.title);
   const slug = nonEmptyString(item?.slug);
   const description = nonEmptyString(item?.description);
+  const type = nonEmptyString(item?.type) ?? "";
   const image = nonEmptyString(item?.image?.url);
 
   if (!title || !slug || !description || !image) return null;
@@ -396,7 +271,10 @@ function normalizeSelection(
     slug,
     title,
     description,
-    facts: normalizeFacts(item?.facts),
+    type,
+    facts: normalizeFacts(item?.facts).filter(
+      (fact) => fact.label.trim().toLowerCase() !== "type",
+    ),
     image,
     aspect: aspectFromDimensions(item?.image?.dimensions),
   };
@@ -415,26 +293,8 @@ function stubInterior(project: StubInteriorProject): InteriorProject {
   };
 }
 
-function stubSelection(piece: StubSelectionPiece): SelectionPiece {
-  return {
-    slug: piece.slug,
-    title: piece.title,
-    description: piece.description,
-    image: piece.image,
-    aspect: piece.aspect,
-    facts: [
-      { label: "Material", value: piece.material },
-      { label: "Year", value: piece.year },
-    ],
-  };
-}
-
 function fallbackInteriors() {
   return INTERIORS.map(stubInterior);
-}
-
-function fallbackSelection() {
-  return SELECTION.map(stubSelection);
 }
 
 export async function getAllInteriors() {
@@ -462,7 +322,7 @@ export async function getAllSelection() {
     query: SELECTION_ITEMS_QUERY,
   });
   const normalized = items?.map(normalizeSelection).filter(isNonNullable);
-  return normalized?.length ? normalized : fallbackSelection();
+  return normalized ?? [];
 }
 
 export async function getSelection(slug: string) {
@@ -470,11 +330,7 @@ export async function getSelection(slug: string) {
     query: SELECTION_ITEM_QUERY,
     params: { slug },
   });
-  return (
-    normalizeSelection(item) ??
-    fallbackSelection().find((piece) => piece.slug === slug) ??
-    null
-  );
+  return normalizeSelection(item);
 }
 
 export async function getProfile(): Promise<Profile> {

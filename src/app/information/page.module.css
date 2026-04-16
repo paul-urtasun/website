@@ -1,21 +1,47 @@
 .page {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: calc(100dvh - var(--header-h) - var(--footer-h));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
 }
 
 .text {
   display: flex;
   flex-direction: column;
+  margin-top: calc(-1 * var(--header-overlap));
+  margin-bottom: calc(-1 * var(--footer-h));
+  padding-top: calc(var(--header-overlap) + 40px);
+  padding-right: var(--edge-pad);
+  padding-bottom: calc(var(--footer-h) + 80px);
+  padding-left: var(--edge-pad);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.textScroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.textInner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
   justify-content: flex-start;
-  padding: 80px var(--edge-pad);
   gap: 40px;
+  min-height: 100%;
 }
 
 .bio {
   font-size: var(--text-sm);
   line-height: 1.7;
-  max-width: 56ch;
   letter-spacing: 0.01em;
 }
 
@@ -45,10 +71,13 @@
 }
 
 .portrait {
+  container-type: size;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: clamp(24px, 5vw, 120px);
+  min-height: 0;
+  overflow: hidden;
 }
 
 .portraitStack {
@@ -56,14 +85,16 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  width: 100%;
-  max-width: 720px;
+  width: min(100cqw, calc((100cqh - 48px) * 3 / 4));
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .frame {
   position: relative;
   width: 100%;
   aspect-ratio: 3 / 4;
+  flex: 0 0 auto;
   background: var(--rule);
   overflow: hidden;
 }
@@ -85,14 +116,32 @@
 @media (max-width: 768px) {
   .page {
     grid-template-columns: 1fr;
+    flex: none;
+    height: auto;
+    min-height: auto;
   }
 
   .text {
+    margin-top: 0;
+    margin-bottom: 0;
     padding: 32px var(--edge-pad);
+  }
+
+  .textScroll {
+    overflow-y: visible;
+  }
+
+  .textInner {
+    min-height: 0;
     gap: 24px;
   }
 
   .portrait {
+    container-type: normal;
     padding: 16px var(--edge-pad) 48px;
+  }
+
+  .portraitStack {
+    width: 100%;
   }
 }

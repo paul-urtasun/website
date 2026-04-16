@@ -72,8 +72,9 @@ export default async function SelectionDetail({
 
             <p className={styles.description}>{piece.description}</p>
 
-            {piece.facts.length > 0 ? (
+            {piece.type || piece.facts.length > 0 ? (
               <FactList>
+                {piece.type ? <Fact label="Type" value={piece.type} /> : null}
                 {piece.facts.map((fact, i) => (
                   <Fact
                     key={`${fact.label}-${fact.value}-${i}`}

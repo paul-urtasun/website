@@ -4,7 +4,7 @@ export function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer className={styles.footer}>
-      <span className="heading">© Paul Urtasun {year}</span>
+      <span className="body">© Paul Urtasun {year}</span>
     </footer>
   );
 }

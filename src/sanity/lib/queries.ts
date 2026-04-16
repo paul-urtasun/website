@@ -46,6 +46,7 @@ export const SELECTION_ITEMS_QUERY = defineQuery(`
     title,
     "slug": slug.current,
     description,
+    type,
     facts[] {
       label,
       value
@@ -60,6 +61,7 @@ export const SELECTION_ITEM_QUERY = defineQuery(`
     title,
     "slug": slug.current,
     description,
+    type,
     facts[] {
       label,
       value

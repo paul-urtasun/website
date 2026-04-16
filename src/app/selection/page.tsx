@@ -17,7 +17,7 @@ export default async function SelectionGrid() {
           key={piece.slug}
           href={`/selection/${piece.slug}`}
           className={styles.cell}
-          aria-label={piece.title}
+          aria-label={piece.type ? `${piece.title} — ${piece.type}` : piece.title}
         >
           <div className={styles.frame}>
             <div className={`${styles.shot} ${styles[piece.aspect]}`}>

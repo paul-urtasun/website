@@ -28,6 +28,12 @@ export const selectionItem = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "type",
+      title: "Type",
+      type: "string",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
       name: "facts",
       title: "Facts",
       type: "array",
