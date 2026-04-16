@@ -10,12 +10,14 @@ import {
   sanityEnvIsConfigured,
 } from "@/sanity/env";
 
+const isDevelopment = process.env.NODE_ENV !== "production";
+
 export const client: SanityClient | null = sanityEnvIsConfigured
   ? createClient({
       projectId,
       dataset,
       apiVersion,
-      useCdn: true,
+      useCdn: !isDevelopment,
     })
   : null;
 
@@ -38,6 +40,12 @@ export async function sanityFetch<
   if (!client) return null;
 
   try {
+    if (isDevelopment) {
+      return await client.fetch<Result>(query, params, {
+        cache: "no-store",
+      });
+    }
+
     return await client.fetch<Result>(query, params, {
       next: {
         revalidate: tags.length ? false : revalidate,

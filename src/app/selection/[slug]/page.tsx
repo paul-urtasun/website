@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { Fact, FactList } from "@/components/Facts";
-import { dominantColorFromImageUrl } from "@/lib/dominantColor";
 import { getAllSelection, getSelection, getProfile } from "@/lib/content";
 import styles from "./page.module.css";
 
@@ -40,7 +39,6 @@ export default async function SelectionDetail({
   ]);
   if (!piece) notFound();
 
-  const detailBackdrop = await dominantColorFromImageUrl(piece.image);
   const enquireSubject = encodeURIComponent(`Enquiry — ${piece.title}`);
 
   return (
@@ -62,7 +60,7 @@ export default async function SelectionDetail({
         className={styles.detailCol}
         style={
           {
-            "--selection-detail-backdrop": detailBackdrop,
+            "--selection-detail-backdrop": piece.backdropColor,
           } as CSSProperties
         }
       >

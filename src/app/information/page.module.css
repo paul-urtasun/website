@@ -75,7 +75,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(24px, 5vw, 120px);
+  margin-top: calc(-1 * var(--header-overlap));
+  margin-bottom: calc(-1 * var(--footer-h));
+  padding-top: calc(var(--header-overlap) + 40px);
+  padding-right: clamp(24px, 5vw, 120px);
+  padding-bottom: calc(var(--footer-h) + 40px);
+  padding-left: clamp(24px, 5vw, 120px);
   min-height: 0;
   overflow: hidden;
 }
@@ -138,6 +143,8 @@
 
   .portrait {
     container-type: normal;
+    margin-top: 0;
+    margin-bottom: 0;
     padding: 16px var(--edge-pad) 48px;
   }
 

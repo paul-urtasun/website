@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Fact, FactList } from "@/components/Facts";
 import { InteriorGallery } from "@/components/InteriorGallery";
-import { dominantColorFromImageUrl } from "@/lib/dominantColor";
 import { getAllInteriors, getInterior } from "@/lib/content";
 import styles from "./page.module.css";
 
@@ -36,17 +35,12 @@ export default async function InteriorDetail({
   const project = await getInterior(slug);
   if (!project) notFound();
 
-  const firstImage = project.gallery[0];
-  const backdropColor = firstImage
-    ? await dominantColorFromImageUrl(firstImage)
-    : undefined;
-
   return (
     <article className={styles.page}>
       <InteriorGallery
         title={project.title}
         gallery={project.gallery}
-        backdropColor={backdropColor}
+        backdropColor={project.backdropColor}
       />
 
       <footer className={styles.meta}>

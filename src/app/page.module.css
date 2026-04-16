@@ -1,38 +1,64 @@
 .list {
   display: flex;
   flex-direction: column;
-  padding: 60px 0 120px;
-  gap: 80px;
+  padding: 0;
+  gap: 0;
 }
 
 .item {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  align-items: stretch;
+  height: calc(65dvh + var(--header-overlap));
+  padding: 40px 24px;
+  container-type: size;
+}
+
+.itemLink {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  justify-items: center;
   gap: 20px;
+  height: 100%;
+  width: min(100cqw, calc((100cqh - 52px) * 3 / 2));
+  max-width: 100%;
+  transition: opacity 120ms ease;
+}
+
+.mediaBox {
+  display: flex;
+  width: 100%;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
 }
 
 .frame {
   position: relative;
-  width: min(58vw, 920px);
   aspect-ratio: 3 / 2;
+  width: 100%;
   overflow: hidden;
   background: var(--rule);
 }
 
 .image {
   object-fit: cover;
-  transition: transform 600ms ease;
 }
 
-.item:hover .image {
-  transform: scale(1.015);
+.itemLink:hover {
+  opacity: 0.5;
+}
+
+.itemLink:focus-visible {
+  opacity: 0.5;
 }
 
 .caption {
   display: flex;
   gap: 24px;
   align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .muted {
@@ -40,12 +66,7 @@
 }
 
 @media (max-width: 768px) {
-  .list {
-    padding: 24px 0 64px;
-    gap: 48px;
-  }
-
-  .frame {
-    width: calc(100vw - (var(--edge-pad) * 2));
+  .item {
+    height: calc(50dvh + var(--header-overlap));
   }
 }

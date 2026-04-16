@@ -6,6 +6,11 @@
 
 .cell {
   display: block;
+  transition: opacity 120ms ease;
+}
+
+.cell:hover {
+  opacity: 0.5;
 }
 
 .frame {
@@ -44,9 +49,6 @@
   transition: transform 600ms ease;
 }
 
-.cell:hover .image {
-  transform: scale(1.02);
-}
 
 @media (max-width: 1024px) {
   .grid {

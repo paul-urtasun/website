@@ -1,10 +1,18 @@
-import sharp from "sharp";
-
-/** Matches `var(--rule)` when sampling fails; still normalized to target luminosity. */
-const FALLBACK_HEX = "#e6e2d8";
-
 /** HSL lightness (0–100), per design spec for gallery backdrops. */
-const TARGET_LUMINOSITY = 94;
+const TARGET_LUMINOSITY = 96;
+
+export type SanityPaletteSwatch = {
+  background?: string | null;
+  foreground?: string | null;
+};
+
+export type SanityPalette = {
+  dominant?: SanityPaletteSwatch | null;
+  lightMuted?: SanityPaletteSwatch | null;
+  muted?: SanityPaletteSwatch | null;
+  lightVibrant?: SanityPaletteSwatch | null;
+  vibrant?: SanityPaletteSwatch | null;
+};
 
 function hexToRgb(hex: string) {
   const n = hex.replace("#", "");
@@ -89,54 +97,30 @@ function rgbToCss({ r, g, b }: { r: number; g: number; b: number }) {
   return `rgb(${r} ${g} ${b})`;
 }
 
-function fallbackCss() {
-  const { r, g, b } = hexToRgb(FALLBACK_HEX);
-  return rgbToCss(rgbWithLuminosity(r, g, b, TARGET_LUMINOSITY));
+function normalizedHex(value: string | null | undefined) {
+  const trimmed = value?.trim();
+  return trimmed && /^#[0-9a-f]{6}$/i.test(trimmed) ? trimmed : null;
+}
+
+function paletteBackground(palette: SanityPalette | null | undefined) {
+  return (
+    normalizedHex(palette?.lightMuted?.background) ??
+    normalizedHex(palette?.dominant?.background) ??
+    normalizedHex(palette?.muted?.background) ??
+    normalizedHex(palette?.lightVibrant?.background) ??
+    normalizedHex(palette?.vibrant?.background)
+  );
 }
 
 /**
- * Downsamples the image, averages RGB, then fixes HSL luminosity to {@link TARGET_LUMINOSITY}.
+ * Uses Sanity asset palette metadata, then normalizes lightness for the site backdrop treatment.
  */
-export async function dominantColorFromImageUrl(url: string): Promise<string> {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) {
-      return fallbackCss();
-    }
+export function backdropColorFromPalette(
+  palette: SanityPalette | null | undefined,
+): string | undefined {
+  const hex = paletteBackground(palette);
+  if (!hex) return undefined;
 
-    const buf = Buffer.from(await res.arrayBuffer());
-    const { data, info } = await sharp(buf)
-      .resize(48, 48, { fit: "cover" })
-      .raw()
-      .toBuffer({ resolveWithObject: true });
-
-    const channels = info.channels;
-    if (channels < 1 || data.length === 0) {
-      return fallbackCss();
-    }
-
-    let r = 0;
-    let g = 0;
-    let b = 0;
-    let count = 0;
-
-    for (let i = 0; i < data.length; i += channels) {
-      r += data[i] ?? 0;
-      if (channels >= 3) {
-        g += data[i + 1] ?? 0;
-        b += data[i + 2] ?? 0;
-      } else {
-        g += data[i] ?? 0;
-        b += data[i] ?? 0;
-      }
-      count++;
-    }
-
-    r = Math.round(r / count);
-    g = Math.round(g / count);
-    b = Math.round(b / count);
-    return rgbToCss(rgbWithLuminosity(r, g, b, TARGET_LUMINOSITY));
-  } catch {
-    return fallbackCss();
-  }
+  const { r, g, b } = hexToRgb(hex);
+  return rgbToCss(rgbWithLuminosity(r, g, b, TARGET_LUMINOSITY));
 }

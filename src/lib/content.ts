@@ -1,3 +1,7 @@
+import {
+  backdropColorFromPalette,
+  type SanityPalette,
+} from "@/lib/dominantColor";
 import { sanityFetch } from "@/sanity/lib/client";
 import {
   INFORMATION_QUERY,
@@ -22,6 +26,7 @@ export interface InteriorProject {
   facts: FactItem[];
   /** First image is used as the listing thumbnail and detail hero backdrop. */
   gallery: string[];
+  backdropColor?: string;
 }
 
 export type SelectionAspect = "portrait" | "landscape" | "square";
@@ -34,6 +39,7 @@ export interface SelectionPiece {
   facts: FactItem[];
   image: string;
   aspect: SelectionAspect;
+  backdropColor?: string;
 }
 
 export interface Profile {
@@ -63,6 +69,7 @@ type SanityImage = {
   url?: string | null;
   alt?: string | null;
   dimensions?: SanityImageDimensions | null;
+  palette?: SanityPalette | null;
 };
 
 type SanityInteriorProject = {
@@ -253,6 +260,7 @@ function normalizeInterior(
         !["type", "location"].includes(fact.label.trim().toLowerCase()),
     ),
     gallery,
+    backdropColor: backdropColorFromPalette(project?.images?.[0]?.palette),
   };
 }
 
@@ -277,6 +285,7 @@ function normalizeSelection(
     ),
     image,
     aspect: aspectFromDimensions(item?.image?.dimensions),
+    backdropColor: backdropColorFromPalette(item?.image?.palette),
   };
 }
 

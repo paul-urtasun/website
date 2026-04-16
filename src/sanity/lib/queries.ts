@@ -3,7 +3,8 @@ import { defineQuery } from "next-sanity";
 const IMAGE_PROJECTION = `{
   ...,
   "url": asset->url,
-  "dimensions": asset->metadata.dimensions
+  "dimensions": asset->metadata.dimensions,
+  "palette": asset->metadata.palette
 }`;
 
 export const INTERIOR_PROJECTS_QUERY = defineQuery(`
