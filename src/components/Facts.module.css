@@ -1,0 +1,25 @@
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fact {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+}
+
+.fact dt {
+  color: var(--muted);
+  font-size: max(10px, calc(var(--text-sm) - 4px));
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+@media (max-width: 768px) {
+  .fact {
+    grid-template-columns: 110px 1fr;
+  }
+}

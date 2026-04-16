@@ -1,0 +1,98 @@
+.page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: calc(100dvh - var(--header-h) - var(--footer-h));
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 80px var(--edge-pad);
+  gap: 40px;
+}
+
+.bio {
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  max-width: 56ch;
+  letter-spacing: 0.01em;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+}
+
+.contactLink {
+  width: fit-content;
+  transition: opacity 120ms ease;
+}
+
+.contactLink:hover {
+  opacity: 0.55;
+}
+
+.address {
+  margin-top: 8px;
+  max-width: 32ch;
+  font-style: normal;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+.portrait {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.portraitStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 720px;
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: var(--rule);
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.portraitCaption {
+  margin: 0;
+  max-width: 48ch;
+  text-align: center;
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+
+  .text {
+    padding: 32px var(--edge-pad);
+    gap: 24px;
+  }
+
+  .portrait {
+    padding: 16px var(--edge-pad) 48px;
+  }
+}

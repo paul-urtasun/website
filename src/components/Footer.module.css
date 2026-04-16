@@ -1,0 +1,7 @@
+.footer {
+  display: flex;
+  align-items: center;
+  height: var(--footer-h);
+  padding: 0 var(--edge-pad);
+  color: var(--fg);
+}

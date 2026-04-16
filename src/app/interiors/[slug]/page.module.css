@@ -1,0 +1,33 @@
+.page {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 60px;
+  padding: 40px var(--edge-pad) 40px;
+  align-items: start;
+}
+
+.title {
+  /* size override on top of .heading */
+  font-size: 22px;
+}
+
+.description {
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  max-width: 56ch;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 768px) {
+  .meta {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 24px var(--edge-pad) 64px;
+  }
+
+}
