@@ -72,7 +72,7 @@ export const SELECTION_ITEM_QUERY = defineQuery(`
 `);
 
 export const INFORMATION_QUERY = defineQuery(`
-  *[_type == "information"] | order(_id == "information" desc, _updatedAt desc)[0] {
+  *[_type == "information"] | order(select(_id == "information" => 1, 0) desc, _updatedAt desc)[0] {
     bio,
     contact {
       phone,

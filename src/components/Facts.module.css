@@ -8,14 +8,14 @@
   display: grid;
   grid-template-columns: 140px 1fr;
   font-size: var(--text-sm);
-  letter-spacing: var(--tracking-wide);
+  align-items: center;
 }
 
 .fact dt {
   color: var(--muted);
   font-size: max(10px, calc(var(--text-sm) - 4px));
   text-transform: uppercase;
-  letter-spacing: 0.07em;
+  letter-spacing: 0.05em;
 }
 
 @media (max-width: 768px) {

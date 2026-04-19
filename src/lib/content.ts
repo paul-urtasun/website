@@ -199,6 +199,13 @@ function nonEmptyString(value: string | null | undefined): string | null {
   return trimmed ? trimmed : null;
 }
 
+/** Sanity / pasted text sometimes uses U+2028/U+2029 instead of newlines. */
+function normalizeCaptionLines(value: string | null | undefined): string | null {
+  return nonEmptyString(
+    value?.replace(/\u2028|\u2029/g, "\n").replace(/\r\n/g, "\n"),
+  );
+}
+
 function normalizeFacts(facts: SanityFact[] | null | undefined): FactItem[] {
   return (
     facts
@@ -213,9 +220,8 @@ function normalizeFacts(facts: SanityFact[] | null | undefined): FactItem[] {
 
 function imageUrls(images: SanityImage[] | null | undefined): string[] {
   return (
-    images
-      ?.map((image) => nonEmptyString(image.url))
-      .filter(isNonNullable) ?? []
+    images?.map((image) => nonEmptyString(image.url)).filter(isNonNullable) ??
+    []
   );
 }
 
@@ -256,8 +262,7 @@ function normalizeInterior(
     location,
     description,
     facts: normalizeFacts(project?.facts).filter(
-      (fact) =>
-        !["type", "location"].includes(fact.label.trim().toLowerCase()),
+      (fact) => !["type", "location"].includes(fact.label.trim().toLowerCase()),
     ),
     gallery,
     backdropColor: backdropColorFromPalette(project?.images?.[0]?.palette),
@@ -356,6 +361,6 @@ export async function getProfile(): Promise<Profile> {
     address: nonEmptyString(profile.contact?.address) ?? PROFILE.address,
     portrait: nonEmptyString(profile.portrait?.url) ?? PROFILE.portrait,
     portraitCaption:
-      nonEmptyString(profile.portraitCaption) ?? PROFILE.portraitCaption,
+      normalizeCaptionLines(profile.portraitCaption) ?? PROFILE.portraitCaption,
   };
 }

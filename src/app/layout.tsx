@@ -1,5 +1,7 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { Inter, Cormorant } from "next/font/google";
+import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -11,11 +13,21 @@ const sans = Inter({
 });
 
 // Headings + nav
-const serif = Cormorant({
+const serif = localFont({
   variable: "--font-serif",
-  subsets: ["latin"],
-  weight: ["500", "600"],
-  style: ["normal", "italic"],
+  display: "swap",
+  src: [
+    {
+      path: "./fonts/LouizeDisplay-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/LouizeDisplay-MediumItalic.ttf",
+      weight: "500",
+      style: "italic",
+    },
+  ],
 });
 
 export const metadata: Metadata = {
@@ -36,6 +48,7 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
