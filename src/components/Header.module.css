@@ -11,6 +11,19 @@
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.logoMark {
+  flex-shrink: 0;
+  width: 20px;
+}
+
+.wordmark {
+  display: inline-block;
+  padding-top: 3px;
 }
 
 .nav {

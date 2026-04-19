@@ -1,8 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
+import logo from "./images/logo.svg";
 import styles from "./Header.module.css";
 
 const NAV = [
@@ -34,7 +36,15 @@ export function Header() {
   return (
     <header className={styles.header}>
       <Link href="/" className={classNames("heading", styles.logo)}>
-        Paul Urtasun
+        <Image
+          src={logo}
+          alt=""
+          width={16}
+          height={21}
+          className={styles.logoMark}
+          priority
+        />
+        <span className={styles.wordmark}>Paul Urtasun</span>
       </Link>
       {NAV.map((item) => (
         <Link

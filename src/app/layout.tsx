@@ -18,12 +18,12 @@ const serif = localFont({
   display: "swap",
   src: [
     {
-      path: "./fonts/LouizeDisplay-Medium.ttf",
+      path: "./fonts/LouizeDisplay-Medium.woff",
       weight: "500",
       style: "normal",
     },
     {
-      path: "./fonts/LouizeDisplay-MediumItalic.ttf",
+      path: "./fonts/LouizeDisplay-MediumItalic.woff",
       weight: "500",
       style: "italic",
     },
