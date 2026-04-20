@@ -18,7 +18,7 @@
   letter-spacing: 0.05em;
 }
 
-@media (max-width: 768px) {
+@media (orientation: portrait) {
   .fact {
     grid-template-columns: 110px 1fr;
   }

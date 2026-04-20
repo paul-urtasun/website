@@ -101,9 +101,8 @@ button {
   color: var(--bg);
 }
 
-@media (max-width: 768px) {
+@media (orientation: portrait) {
   :root {
-    /* Stacked header is taller than --header-h; keep overlap in sync for gallery tuck. */
-    --header-overlap: 92px;
+    --edge-pad: 16px;
   }
 }

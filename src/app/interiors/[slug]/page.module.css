@@ -22,11 +22,10 @@
   max-width: 56ch;
 }
 
-@media (max-width: 768px) {
+@media (orientation: portrait) {
   .meta {
     grid-template-columns: 1fr;
     gap: 28px;
-    padding: 24px var(--edge-pad) 64px;
+    padding: 40px var(--edge-pad);
   }
-
 }

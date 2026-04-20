@@ -15,8 +15,7 @@
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
   margin-top: calc(-1 * var(--header-overlap));
-  padding-top: calc(var(--header-overlap));
-  /* padding-bottom: 40px; */
+  padding-top: calc(var(--header-overlap) + 16px);
   padding-bottom: calc(var(--header-overlap));
   background: var(--gallery-backdrop, var(--rule));
   height: calc(100dvh - 120px);
@@ -77,3 +76,18 @@
   object-position: center;
 }
 
+
+@media (orientation: portrait) {
+  .gallery {
+    height: 50dvh; 
+    padding-bottom: 40px;
+  }
+
+  .navPrev {
+    left: 0px;
+  }
+  
+  .navNext {
+    right: 0px;
+  }
+}

@@ -5,3 +5,10 @@
   padding: 0 var(--edge-pad);
   color: var(--fg);
 }
+
+@media (orientation: portrait) {
+  .footer {
+    height: auto;
+    padding: 24px 16px;
+  }
+}

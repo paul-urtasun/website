@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -32,34 +33,86 @@ function navItemIsActive(
 
 export function Header() {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMenuOpen]);
 
   return (
-    <header className={styles.header}>
-      <Link href="/" className={classNames("heading", styles.logo)}>
-        <Image
-          src={logo}
-          alt=""
-          width={16}
-          height={21}
-          className={styles.logoMark}
-          priority
-        />
-        <span className={styles.wordmark}>Paul Urtasun</span>
-      </Link>
-      {NAV.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          className={classNames(
-            "heading",
-            styles.link,
-            styles.desktopLink,
-            navItemIsActive(item.href, pathname) && styles.active,
-          )}
-        >
-          {item.label}
+    <>
+      <header
+        className={classNames(styles.header, isMenuOpen && styles.menuOpen)}
+      >
+        <Link href="/" className={classNames("heading", styles.logo)}>
+          <Image
+            src={logo}
+            alt=""
+            width={16}
+            height={21}
+            className={styles.logoMark}
+            priority
+          />
+          <span className={styles.wordmark}>Paul Urtasun</span>
         </Link>
-      ))}
-    </header>
+
+        {NAV.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={classNames(
+              "heading",
+              styles.link,
+              styles.desktopLink,
+              navItemIsActive(item.href, pathname) && styles.active,
+            )}
+          >
+            {item.label}
+          </Link>
+        ))}
+
+        <button
+          type="button"
+          className={classNames("heading", styles.menuToggle)}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-site-menu"
+          onClick={() => setIsMenuOpen((open) => !open)}
+        >
+          {isMenuOpen ? "Close" : "Menu"}
+        </button>
+      </header>
+
+      {isMenuOpen ? (
+        <div className={styles.menuOverlay}>
+          <nav
+            id="mobile-site-menu"
+            className={styles.mobileNav}
+            aria-label="Mobile"
+          >
+            {NAV.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={classNames(
+                  "heading",
+                  styles.mobileLink,
+                  navItemIsActive(item.href, pathname) && styles.active,
+                )}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      ) : null}
+    </>
   );
 }
