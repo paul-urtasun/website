@@ -121,7 +121,7 @@
   white-space: pre-line;
 }
 
-@media (max-width: 768px) {
+@media (orientation: portrait) {
   .page {
     grid-template-columns: 1fr;
     flex: none;

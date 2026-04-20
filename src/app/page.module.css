@@ -62,7 +62,7 @@
   color: rgba(255, 255, 255, 0.72);
 }
 
-@media (max-width: 768px) {
+@media (orientation: portrait) {
   .split {
     flex-direction: column;
   }
