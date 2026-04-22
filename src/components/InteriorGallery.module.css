@@ -15,9 +15,10 @@
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
   margin-top: calc(-1 * var(--header-overlap));
-  padding-top: calc(var(--header-overlap) + 16px);
-  padding-bottom: calc(var(--header-overlap));
-  background: var(--gallery-backdrop, var(--rule));
+  /* padding-top: calc(var(--header-overlap) + 16px); */
+  /* padding-bottom: calc(var(--header-overlap)); */
+  background: #000;
+  /* background: var(--gallery-backdrop, var(--rule)); */
   height: calc(100dvh - 120px);
 }
 

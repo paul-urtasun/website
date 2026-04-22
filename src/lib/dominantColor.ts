@@ -83,12 +83,7 @@ function hslToRgb(h: number, s: number, l: number) {
   };
 }
 
-function rgbWithLuminosity(
-  r: number,
-  g: number,
-  b: number,
-  luminosity: number,
-) {
+function rgbWithLuminosity(r: number, g: number, b: number, luminosity: number) {
   const { h, s } = rgbToHsl(r, g, b);
   return hslToRgb(h, s, luminosity);
 }

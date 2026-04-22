@@ -12,11 +12,12 @@ export default async function SelectionGrid() {
 
   return (
     <div className={styles.grid}>
-      {pieces.map((piece) => (
+      {pieces.map((piece, i) => (
         <Link
           key={piece.slug}
           href={`/selection/${piece.slug}`}
           className={styles.cell}
+          style={{ '--i': i } as React.CSSProperties}
           aria-label={piece.type ? `${piece.title} — ${piece.type}` : piece.title}
         >
           <div className={styles.frame}>

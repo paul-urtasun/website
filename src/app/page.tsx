@@ -34,8 +34,10 @@ export default async function InteriorsIndex() {
               />
             </div>
             <div className={styles.caption}>
-              <span className="heading">{project.title}</span>
-              <span className={`body ${styles.captionMuted}`}>{listingDetail}</span>
+              <span className={`heading ${styles.captionTitle}`}>{project.title}</span>
+              {listingDetail && (
+                <span className={`body ${styles.captionLocation}`}>{listingDetail}</span>
+              )}
             </div>
           </Link>
         );

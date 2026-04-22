@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import classNames from "classnames";
-import logo from "./images/logo.svg";
 import styles from "./Header.module.css";
 
 const NAV = [
@@ -13,6 +11,8 @@ const NAV = [
   { href: "/selection", label: "Selection" },
   { href: "/information", label: "Information" },
 ] as const;
+
+const CLOSE_DURATION = 480;
 
 function navItemIsActive(
   href: (typeof NAV)[number]["href"],
@@ -34,85 +34,83 @@ function navItemIsActive(
 export function Header() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (!isMenuOpen) return;
-
+    if (!isMenuOpen && !isClosing) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
     return () => {
       document.body.style.overflow = previousOverflow;
     };
-  }, [isMenuOpen]);
+  }, [isMenuOpen, isClosing]);
+
+  const openMenu = useCallback(() => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setIsClosing(false);
+    setIsMenuOpen(true);
+  }, []);
+
+  const closeMenu = useCallback(() => {
+    setIsClosing(true);
+    closeTimer.current = setTimeout(() => {
+      setIsMenuOpen(false);
+      setIsClosing(false);
+    }, CLOSE_DURATION);
+  }, []);
+
+  const navLinks = (onClick?: () => void) =>
+    NAV.map((item) => (
+      <Link
+        key={item.href}
+        href={item.href}
+        className={classNames(
+          "heading",
+          styles.link,
+          navItemIsActive(item.href, pathname) && styles.active,
+        )}
+        onClick={onClick}
+      >
+        {item.label}
+      </Link>
+    ));
 
   return (
     <>
       <header
-        className={classNames(styles.header, isMenuOpen && styles.menuOpen)}
+        className={classNames(
+          styles.header,
+          isMenuOpen && styles.menuOpen,
+          (pathname === "/" || pathname?.startsWith("/interiors/")) && styles.home,
+        )}
       >
         <Link href="/" className={classNames("heading", styles.logo)}>
-          <Image
-            src={logo}
-            alt=""
-            width={16}
-            height={21}
-            className={styles.logoMark}
-            priority
-          />
           <span className={styles.wordmark}>Paul Urtasun</span>
         </Link>
 
-        {NAV.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={classNames(
-              "heading",
-              styles.link,
-              styles.desktopLink,
-              navItemIsActive(item.href, pathname) && styles.active,
-            )}
-          >
-            {item.label}
-          </Link>
-        ))}
+        <nav className={styles.desktopNav} aria-label="Site">
+          {navLinks()}
+        </nav>
 
         <button
           type="button"
           className={classNames("heading", styles.menuToggle)}
           aria-expanded={isMenuOpen}
-          aria-controls="mobile-site-menu"
-          onClick={() => setIsMenuOpen((open) => !open)}
+          aria-controls="mobile-nav"
+          onClick={() => (isMenuOpen ? closeMenu() : openMenu())}
         >
           {isMenuOpen ? "Close" : "Menu"}
         </button>
       </header>
 
-      {isMenuOpen ? (
-        <div className={styles.menuOverlay}>
-          <nav
-            id="mobile-site-menu"
-            className={styles.mobileNav}
-            aria-label="Mobile"
-          >
-            {NAV.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={classNames(
-                  "heading",
-                  styles.mobileLink,
-                  navItemIsActive(item.href, pathname) && styles.active,
-                )}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
+      {(isMenuOpen || isClosing) && (
+        <div className={classNames(styles.mobileOverlay, isClosing && styles.mobileOverlayClosing)}>
+          <nav id="mobile-nav" className={styles.mobileNav} aria-label="Site">
+            {navLinks(closeMenu)}
           </nav>
         </div>
-      ) : null}
+      )}
     </>
   );
 }
