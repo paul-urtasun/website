@@ -4,7 +4,6 @@ import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
 
 // Body — GT America stand-in
 const sans = Inter({
@@ -47,7 +46,6 @@ export default function RootLayout({
       <body>
         <Header />
         <main>{children}</main>
-        <Footer />
         <Analytics />
       </body>
     </html>

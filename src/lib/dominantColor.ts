@@ -112,10 +112,11 @@ function paletteBackground(palette: SanityPalette | null | undefined) {
  */
 export function backdropColorFromPalette(
   palette: SanityPalette | null | undefined,
+  luminosity: number = TARGET_LUMINOSITY,
 ): string | undefined {
   const hex = paletteBackground(palette);
   if (!hex) return undefined;
 
   const { r, g, b } = hexToRgb(hex);
-  return rgbToCss(rgbWithLuminosity(r, g, b, TARGET_LUMINOSITY));
+  return rgbToCss(rgbWithLuminosity(r, g, b, luminosity));
 }

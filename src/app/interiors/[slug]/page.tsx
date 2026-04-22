@@ -36,7 +36,7 @@ export default async function InteriorDetail({
   if (!project) notFound();
 
   return (
-    <article className={styles.page}>
+    <article className={styles.page} data-page="interior">
       <InteriorGallery
         title={project.title}
         gallery={project.gallery}

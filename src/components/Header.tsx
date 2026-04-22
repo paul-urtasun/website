@@ -82,7 +82,6 @@ export function Header() {
         className={classNames(
           styles.header,
           isMenuOpen && styles.menuOpen,
-          (pathname === "/" || pathname?.startsWith("/interiors/")) && styles.home,
         )}
       >
         <Link href="/" className={classNames("heading", styles.logo)}>

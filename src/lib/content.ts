@@ -265,7 +265,7 @@ function normalizeInterior(
       (fact) => !["type", "location"].includes(fact.label.trim().toLowerCase()),
     ),
     gallery,
-    backdropColor: backdropColorFromPalette(project?.images?.[0]?.palette),
+    backdropColor: backdropColorFromPalette(project?.images?.[0]?.palette, 50),
   };
 }
 

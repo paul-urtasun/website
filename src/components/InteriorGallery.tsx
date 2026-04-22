@@ -184,7 +184,7 @@ export function InteriorGallery({ title, gallery, backdropColor }: Props) {
       className={styles.wrap}
       style={
         backdropColor
-          ? ({ "--gallery-backdrop": '#111' } as CSSProperties)
+          ? ({ "--gallery-backdrop": backdropColor } as CSSProperties)
           : undefined
       }
     >

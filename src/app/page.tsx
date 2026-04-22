@@ -9,7 +9,7 @@ export default async function InteriorsIndex() {
   const featured = interiors.slice(0, 2);
 
   return (
-    <div className={styles.split}>
+    <div className={styles.split} data-page="home">
       {featured.map((project, i) => {
         const listingDetail = project.location || project.year;
 
