@@ -23,7 +23,8 @@ export interface InteriorProject {
   type: string;
   location: string;
   description: string;
-  facts: FactItem[];
+  /** Optional full-width feature image shown above the gallery. */
+  heroImage?: string;
   /** First image is used as the listing thumbnail and detail hero backdrop. */
   gallery: string[];
   backdropColor?: string;
@@ -52,7 +53,7 @@ export interface Profile {
   portraitCaption: string;
 }
 
-type StubInteriorProject = Omit<InteriorProject, "facts">;
+type StubInteriorProject = InteriorProject;
 
 type SanityFact = {
   label?: string | null;
@@ -79,7 +80,7 @@ type SanityInteriorProject = {
   type?: string | null;
   location?: string | null;
   description?: string | null;
-  facts?: SanityFact[] | null;
+  heroImage?: SanityImage | null;
   images?: SanityImage[] | null;
 };
 
@@ -261,9 +262,7 @@ function normalizeInterior(
     type,
     location,
     description,
-    facts: normalizeFacts(project?.facts).filter(
-      (fact) => !["type", "location"].includes(fact.label.trim().toLowerCase()),
-    ),
+    heroImage: nonEmptyString(project?.heroImage?.url) ?? undefined,
     gallery,
     backdropColor: backdropColorFromPalette(project?.images?.[0]?.palette, 50),
   };
@@ -295,16 +294,7 @@ function normalizeSelection(
 }
 
 function stubInterior(project: StubInteriorProject): InteriorProject {
-  return {
-    slug: project.slug,
-    title: project.title,
-    year: project.year,
-    type: project.type,
-    location: project.location,
-    description: project.description,
-    gallery: project.gallery,
-    facts: [],
-  };
+  return project;
 }
 
 function fallbackInteriors() {

@@ -5,9 +5,9 @@
 
 .meta {
   display: grid;
-  grid-template-columns: 1fr 1fr 2fr;
+  grid-template-columns: 1fr 2fr;
   gap: 60px;
-  padding: 40px var(--edge-pad) 40px;
+  padding: 40px var(--edge-pad);
   align-items: start;
 }
 

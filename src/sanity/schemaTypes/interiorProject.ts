@@ -2,7 +2,7 @@ import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const interiorProject = defineType({
   name: "interiorProject",
-  title: "Project",
+  title: "Interior",
   type: "document",
   fields: [
     defineField({
@@ -46,10 +46,10 @@ export const interiorProject = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "facts",
-      title: "Facts",
-      type: "array",
-      of: [defineArrayMember({ type: "factItem" })],
+      name: "heroImage",
+      title: "Hero image",
+      type: "imageItem",
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "images",
@@ -63,7 +63,7 @@ export const interiorProject = defineType({
     select: {
       title: "title",
       subtitle: "year",
-      media: "images.0",
+      media: "heroImage",
     },
   },
 });

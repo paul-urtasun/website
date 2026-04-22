@@ -25,7 +25,7 @@ export default async function InteriorsIndex() {
           >
             <div className={styles.imageWrap}>
               <Image
-                src={project.gallery[0]}
+                src={project.heroImage ?? project.gallery[0]}
                 alt={project.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"

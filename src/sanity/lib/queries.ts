@@ -16,10 +16,7 @@ export const INTERIOR_PROJECTS_QUERY = defineQuery(`
     type,
     location,
     description,
-    facts[] {
-      label,
-      value
-    },
+    heroImage ${IMAGE_PROJECTION},
     images[] ${IMAGE_PROJECTION}
   }
 `);
@@ -33,10 +30,7 @@ export const INTERIOR_PROJECT_QUERY = defineQuery(`
     type,
     location,
     description,
-    facts[] {
-      label,
-      value
-    },
+    heroImage ${IMAGE_PROJECTION},
     images[] ${IMAGE_PROJECTION}
   }
 `);

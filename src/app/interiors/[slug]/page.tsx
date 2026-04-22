@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Fact, FactList } from "@/components/Facts";
 import { InteriorGallery } from "@/components/InteriorGallery";
 import { getAllInteriors, getInterior } from "@/lib/content";
 import styles from "./page.module.css";
@@ -45,22 +44,6 @@ export default async function InteriorDetail({
 
       <footer className={styles.meta}>
         <h1 className={styles.title}>{project.title}</h1>
-
-        <FactList>
-          <Fact label="Year" value={project.year} />
-          {project.type ? <Fact label="Type" value={project.type} /> : null}
-          {project.location ? (
-            <Fact label="Location" value={project.location} />
-          ) : null}
-          {project.facts.map((fact, i) => (
-            <Fact
-              key={`${fact.label}-${fact.value}-${i}`}
-              label={fact.label}
-              value={fact.value}
-            />
-          ))}
-        </FactList>
-
         <p className={styles.description}>{project.description}</p>
       </footer>
     </article>
