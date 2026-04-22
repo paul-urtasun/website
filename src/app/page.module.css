@@ -73,15 +73,19 @@
 }
 
 @media (max-width: 767px) {
-  .captionLocation {
+  /* .captionLocation {
     display: none;
-  }
+  } */
 }
 
 .captionTitle {
   font-size: 40px;
   line-height: 1.1;
   text-align: center;
+
+  @media (max-width: 767px) {
+    font-size: 28px;
+  }
 }
 
 .captionLocation {

@@ -81,7 +81,7 @@
 @media (orientation: portrait) {
   .gallery {
     height: 50dvh; 
-    padding-bottom: 40px;
+    /* padding-bottom: 40px; */
   }
 
   .navPrev {
